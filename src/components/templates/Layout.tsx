@@ -8,13 +8,13 @@ interface LayoutProps {
     children?: any
 }
 
-export default function Layout(props: LayoutProps) {
+export default function Layout(props: LayoutProps) { //Layout componente top-level que levara o DARK
     return (
         <div className={`flex h-screen w-screen`}>
             <MenuLateral/>
             <div className={`
             flex flex-col w-full p-7
-            bg-gray-300
+            bg-gray-300 dark:bg-gray-800
             `}>
                 <Cabecalho titulo={props.titulo} subtitulo={props.subtitulo} />
                 <Conteudo>
