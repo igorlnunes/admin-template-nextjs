@@ -5,7 +5,7 @@ import useAuth from "../data/hook/useAuth";
 
 export default function Autenticacao() {
 
-    const { usuario, loginGoogle } = useAuth()
+    const { cadastrar, login, loginGoogle } = useAuth()
 
     const [modo, setModo] = useState<'login' | 'cadastro'>('login')
     const [erro, setErro] = useState(null)
@@ -17,14 +17,16 @@ export default function Autenticacao() {
         setTimeout(() => setErro(null), tempoEmSegundos * 1000)
     }
 
-    function submeter() {
-        if(modo === 'login') {
-            console.log('login')
-            exibirErro('Ocorreu um erro no login!')
-        } else {
-            console.log('cadastrar')
-            exibirErro('Ocorreu um erro no cadastro', 10)
-        }
+    async function submeter() {
+        try {
+            if(modo === 'login') {
+                await login(email, senha)
+            } else {
+                await cadastrar(email, senha)
+            }
+        } catch(e) {
+            exibirErro(e?.message ?? 'Erro desconhecido!')
+            }
     }
     
     return (
@@ -96,7 +98,7 @@ export default function Autenticacao() {
                 ) : (
                     <p className="mt-8">
                     Já faz parte da nossa comunidade?
-                    <a onClick={() => setModo('cadastro')} className={`
+                    <a onClick={() => setModo('login')} className={`
                         text-blue-500 hover:text-blue-700 font-semibold
                         cursor-pointer`}> Entre com as suas Credenciais</a>
                 </p>
